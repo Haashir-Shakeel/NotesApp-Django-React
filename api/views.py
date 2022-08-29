@@ -1,8 +1,14 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
 from . models import Note
 from . serializers import NoteSerializer
+from django.http import JsonResponse
+from rest_framework.parsers import JSONParser
+from rest_framework import status
+import json
+from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
 
 @api_view(['GET'])
@@ -16,9 +22,10 @@ def getNotes(request):
     serializer = NoteSerializer(notes,many=True)
     return Response(serializer.data)
 
-
+@csrf_exempt
 @api_view(['GET'])
 def getNote(request, pk):
+    print(request.data)
     notes = Note.objects.get(id=pk)
     serializer = NoteSerializer(notes,many=False)
     return Response(serializer.data)
@@ -28,13 +35,12 @@ def getNote(request, pk):
 def updateNote(request, pk):
     data = request.data # can use data because we using rest_framework otherwise we do request.body or request.POST
     note = Note.objects.get(id=pk)
-    serializer = NoteSerializer(instance = note, data = data)
-                            #serializing this particular note, and passing in new data into note
- 
-    if serializer.is_valid():
-        serializer.save()
-    
-    return Response(serializer.data)
+    serialzer = NoteSerializer(note, data = data)
+
+    if serialzer.is_valid():
+        serialzer.save()
+        return Response(serialzer.data)
+    return Response(serializer.data, status= status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
 def deleteNote(request, pk):
