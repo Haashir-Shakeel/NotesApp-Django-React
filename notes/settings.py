@@ -60,7 +60,9 @@ ROOT_URLCONF = 'notes.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+                BASE_DIR / 'notesapp-frontend-react/build'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,9 +134,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-REST_FRAMEWORK = {
-    'DEFAULT_PARSER_CLASSES' : [
-        'rest_framework.parsers.JSONParser',
-        'rest_framework.parsers.FormParser',
-    ]
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_PARSER_CLASSES' : [
+#         'rest_framework.parsers.JSONParser',
+#         'rest_framework.parsers.FormParser',
+#     ]
+# }
+
+STATICFILES_DIRS = [ 
+    BASE_DIR / 'notesapp-frontend-react/build/static'
+     ]

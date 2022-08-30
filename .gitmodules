@@ -1,0 +1,3 @@
+[submodule "notesapp-frontend-react"]
+	path = notesapp-frontend-react
+	url = https://github.com/Haashir-Shakeel/NotesApp-frontend-react
